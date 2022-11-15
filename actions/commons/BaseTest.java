@@ -1,5 +1,6 @@
 package commons;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -7,10 +8,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 	protected WebDriver driver;
 	private String projectPath = System.getProperty("user.dir");
+	
+	@BeforeSuite
+	public void initBeforSuite() {
+		deleteAllureReport();
+	}
 	
 	protected WebDriver getBrowserDriver(String browserName) {
 		if (browserName.equals("firefox")) {
@@ -30,6 +37,10 @@ public class BaseTest {
 		driver.get(GlobalConstants.PORTAL_PAGE_URL);
 		
 		return driver;
+	}
+	
+	public WebDriver getDriverInstance() {
+		return this.driver;
 	}
 	
 	protected WebDriver getBrowserDriver(String browserName, String appUrl) {
@@ -55,5 +66,20 @@ public class BaseTest {
 	protected int generateFakeNumber(){
 		Random rand = new Random();
 		return rand.nextInt(9999);
-	}	
+	}
+	
+	public void deleteAllureReport() {
+		try {
+			String pathFolderDownload = GlobalConstants.PROJECT_PATH + "/allure-json";
+			File file = new File(pathFolderDownload);
+			File[] listOfFiles = file.listFiles();
+			for (int i = 0; i < listOfFiles.length; i++) {
+				if (listOfFiles[i].isFile()) {
+					new File(listOfFiles[i].toString()).delete();
+				}
+			}
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+		}
+	}
 }
