@@ -2,10 +2,9 @@ package com.nopcommerce.user;
 
 import org.testng.annotations.Test;
 
-import com.sun.org.glassfish.gmbal.Description;
-
 import commons.BaseTest;
 import commons.PageGeneratorManager;
+import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import pageObjects.nopCommerce.user.UserCustomerInforPageObject;
